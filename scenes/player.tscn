@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://th5qgxjg3g7h"]
+
+[ext_resource type="Script" path="res://scripts/PlayerController.gd" id="1_wagvw"]
+[ext_resource type="Texture2D" uid="uid://b5abbakm4hko3" path="res://assets/uwu-cartoonified.png" id="2_x5j74"]
+[ext_resource type="Texture2D" uid="uid://chqll2t6uau3q" path="res://assets/hand_small_point_n.svg" id="3_hyq6x"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1aqvw"]
+
+[node name="PlayerNode2D" type="CharacterBody2D"]
+script = ExtResource("1_wagvw")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.26875, 0.26875)
+texture = ExtResource("2_x5j74")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_1aqvw")
+
+[node name="Pivot2D" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="BlasterNode2D" type="Marker2D" parent="Pivot2D"]
+unique_name_in_owner = true
+
+[node name="GunSprite2D" type="Sprite2D" parent="Pivot2D/BlasterNode2D"]
+position = Vector2(50, 6.80261e-05)
+rotation = 1.5708
+scale = Vector2(1.46253, 1.46253)
+texture = ExtResource("3_hyq6x")
+offset = Vector2(-2, -2)
+
+[node name="GunSpawn2D" type="Marker2D" parent="Pivot2D/BlasterNode2D/GunSprite2D"]
+unique_name_in_owner = true
+position = Vector2(-4.62844e-05, -24.6149)
+rotation = -1.57079

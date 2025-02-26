@@ -1,0 +1,58 @@
+[gd_scene load_steps=7 format=3 uid="uid://b6ac585xf3k6x"]
+
+[ext_resource type="Texture2D" uid="uid://bc36u3yqd7n4c" path="res://assets/xbox_button_a.png" id="1_dkiqe"]
+[ext_resource type="PackedScene" uid="uid://th5qgxjg3g7h" path="res://scenes/player.tscn" id="1_ospp1"]
+[ext_resource type="PackedScene" uid="uid://cncenobva6dhe" path="res://scenes/enemy.tscn" id="1_rcyqc"]
+[ext_resource type="Texture2D" uid="uid://dff353bwr3aln" path="res://assets/generic_stick_horizontal.png" id="3_su451"]
+[ext_resource type="Texture2D" uid="uid://wnjqym35vt1" path="res://assets/xbox_lb_outline.png" id="5_vn32y"]
+[ext_resource type="Texture2D" uid="uid://fnc50ivldwhj" path="res://assets/xbox_rb_outline.png" id="6_wd3jj"]
+
+[node name="World2D" type="Node2D"]
+
+[node name="ButtonTutorial" type="Sprite2D" parent="."]
+position = Vector2(-221.536, -283.359)
+scale = Vector2(0.453521, 0.453521)
+texture = ExtResource("1_dkiqe")
+
+[node name="PlayerNode2D" parent="." instance=ExtResource("1_ospp1")]
+
+[node name="Enemy2D" parent="." instance=ExtResource("1_rcyqc")]
+position = Vector2(319, -81)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Turn" type="Label" parent="Camera2D"]
+offset_left = -532.0
+offset_top = -252.0
+offset_right = -492.0
+offset_bottom = -229.0
+text = "Turn"
+horizontal_alignment = 1
+
+[node name="Stop" type="Label" parent="Camera2D/Turn"]
+offset_left = 150.0
+offset_right = 190.0
+offset_bottom = 23.0
+text = "Stop"
+horizontal_alignment = 1
+
+[node name="Stop" type="Label" parent="Camera2D/Turn/Stop"]
+offset_left = 141.0
+offset_right = 181.0
+offset_bottom = 23.0
+text = "Fire"
+horizontal_alignment = 1
+
+[node name="StickTutorial2D" type="Sprite2D" parent="."]
+position = Vector2(-512, -283)
+scale = Vector2(0.50127, 0.501977)
+texture = ExtResource("3_su451")
+
+[node name="Bumper2D 1" type="Sprite2D" parent="."]
+position = Vector2(-397, -284)
+scale = Vector2(0.640843, 0.640843)
+texture = ExtResource("5_vn32y")
+
+[node name="Bumper2D 2" type="Sprite2D" parent="Bumper2D 1"]
+position = Vector2(107, 1.00003)
+texture = ExtResource("6_wd3jj")
