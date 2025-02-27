@@ -1,30 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://cncenobva6dhe"]
+[gd_scene load_steps=11 format=3 uid="uid://cncenobva6dhe"]
 
 [ext_resource type="Texture2D" uid="uid://b1tpshqb2p1j2" path="res://assets/imp-cartoonified.png" id="1_o2qqn"]
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_vj54m"]
+[ext_resource type="Shader" uid="uid://chlpmafosajx4" path="res://scenes/shaders/hit_flash.tres" id="2_wb3xp"]
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_60yyh"]
-animations = [{
-"frames": [],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"die",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"hurt",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"walk",
-"speed": 5.0
-}]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q7ve4"]
+resource_local_to_scene = true
+shader = ExtResource("2_wb3xp")
+shader_parameter/enabled = false
+shader_parameter/tint = Color(1, 1, 1, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ykhq4"]
 radius = 30.0666
@@ -45,19 +29,55 @@ corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 4
 
+[sub_resource type="Animation" id="Animation_nb51r"]
+length = 0.09
+step = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Imp:material:shader_parameter/enabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_dnvsc"]
+resource_name = "hit_flash"
+length = 0.09
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Imp:material:shader_parameter/enabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.02, 0.04, 0.06),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [true, false, true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_r4r6k"]
+_data = {
+"RESET": SubResource("Animation_nb51r"),
+"hit_flash": SubResource("Animation_dnvsc")
+}
+
 [node name="Enemy2D" type="CharacterBody2D"]
 collision_layer = 3
 collision_mask = 3
 script = ExtResource("1_vj54m")
 
 [node name="Imp" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_q7ve4")
 position = Vector2(1.52588e-05, 0)
 scale = Vector2(0.269, 0.269)
 texture = ExtResource("1_o2qqn")
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Imp"]
-sprite_frames = SubResource("SpriteFrames_60yyh")
-animation = &"die"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ykhq4")
@@ -73,3 +93,8 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_kl3iy")
 max_value = 7.0
 value = 7.0
 show_percentage = false
+
+[node name="HitFlash2D" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_r4r6k")
+}
