@@ -1,16 +1,45 @@
-[gd_scene load_steps=3 format=3 uid="uid://cncenobva6dhe"]
+[gd_scene load_steps=5 format=3 uid="uid://cncenobva6dhe"]
 
-[ext_resource type="Texture2D" uid="uid://dg0kddcxv6sps" path="res://assets/imp-cartoonified.png" id="1_o2qqn"]
+[ext_resource type="Texture2D" uid="uid://b1tpshqb2p1j2" path="res://assets/imp-cartoonified.png" id="1_o2qqn"]
+[ext_resource type="Script" path="res://scripts/enemy.gd" id="1_vj54m"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_60yyh"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"die",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ykhq4"]
 radius = 30.0666
 
 [node name="Enemy2D" type="CharacterBody2D"]
+script = ExtResource("1_vj54m")
 
 [node name="Imp" type="Sprite2D" parent="."]
 position = Vector2(1.52588e-05, 0)
 scale = Vector2(0.269, 0.269)
 texture = ExtResource("1_o2qqn")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Imp"]
+sprite_frames = SubResource("SpriteFrames_60yyh")
+animation = &"die"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ykhq4")
