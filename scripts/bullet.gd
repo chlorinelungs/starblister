@@ -8,10 +8,10 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	const SPEED = 2500
-	const RANGE = 1200
+	const SPEED = 3000
+	const RANGE = 2200
 	var direction = Vector2.RIGHT.rotated(rotation)
-	position += direction * SPEED * delta
+	position += direction * SPEED * delta * randf()
 
 	travel_distance += SPEED * delta
 

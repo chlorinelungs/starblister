@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 var speed = 150
-var health = 10
+var health = 7
 
 @onready var player = get_node("/root/World2D/PlayerNode2D")
 
@@ -11,6 +11,7 @@ func _physics_process(delta: float) -> void:
 	velocity = direction * speed
 	move_and_slide()
 
+	%HealthBar.value = health
 func take_damage():
 	health -= 1
 

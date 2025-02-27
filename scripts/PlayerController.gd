@@ -24,6 +24,15 @@ func _physics_process(delta: float) -> void:
 	
 	velocity = velocity.limit_length(max_acceleration)
 
+	const DAMAGE := 10.0
+	var overlapping_mobs = %Hurtbox2D.get_overlapping_bodies()
+	if overlapping_mobs.size() > 0:
+		health -= DAMAGE * overlapping_mobs.size() * delta
+		%HealthBar.value = health
+		if health <= 0.0:
+			is_dead.emit()
+
+
 	if Input.is_action_pressed("shoot"):
 		velocity += shoot_vector * acceleration
 		if Input.is_action_pressed("holding"):
@@ -59,14 +68,6 @@ func _physics_process(delta: float) -> void:
 		slow_down()
 	else:
 		turn_speed = slow_turn_speed/2
-
-	const DAMAGE := 5.0
-	var overlapping_mobs = %Hurtbox2D.get_overlapping_bodies()
-	if overlapping_mobs.size() > 0:
-		health -= DAMAGE * overlapping_mobs.size() * delta
-		%HealthBar.value = health
-		if health <= 0.0:
-			is_dead.emit()
 
 	
 	move_and_slide()

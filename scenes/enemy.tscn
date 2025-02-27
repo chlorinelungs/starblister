@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cncenobva6dhe"]
+[gd_scene load_steps=7 format=3 uid="uid://cncenobva6dhe"]
 
 [ext_resource type="Texture2D" uid="uid://b1tpshqb2p1j2" path="res://assets/imp-cartoonified.png" id="1_o2qqn"]
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_vj54m"]
@@ -29,7 +29,25 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_ykhq4"]
 radius = 30.0666
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wyf6b"]
+bg_color = Color(0.57, 0.2052, 0.42408, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kl3iy"]
+bg_color = Color(0.81, 0.405, 0.513, 1)
+border_color = Color(0.0993816, 0.00316196, 0.244959, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 4
+
 [node name="Enemy2D" type="CharacterBody2D"]
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("1_vj54m")
 
 [node name="Imp" type="Sprite2D" parent="."]
@@ -43,3 +61,15 @@ animation = &"die"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_ykhq4")
+
+[node name="HealthBar" type="ProgressBar" parent="."]
+unique_name_in_owner = true
+offset_left = -30.0
+offset_top = -45.0
+offset_right = 30.0
+offset_bottom = -33.0
+theme_override_styles/background = SubResource("StyleBoxFlat_wyf6b")
+theme_override_styles/fill = SubResource("StyleBoxFlat_kl3iy")
+max_value = 7.0
+value = 7.0
+show_percentage = false

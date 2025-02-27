@@ -7,6 +7,9 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_1aqvw"]
 radius = 27.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_iqsr3"]
+radius = 30.0
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rq8no"]
 bg_color = Color(0.2052, 0.57, 0.40584, 1)
 corner_radius_top_left = 4
@@ -22,9 +25,6 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 corner_detail = 4
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_iqsr3"]
-radius = 29.0
 
 [node name="PlayerNode2D" type="CharacterBody2D"]
 script = ExtResource("1_wagvw")
@@ -58,7 +58,16 @@ unique_name_in_owner = true
 position = Vector2(-0.000100966, -15.0424)
 rotation = -1.57079
 
-[node name="HealthBar" type="ProgressBar" parent="."]
+[node name="Hurtbox2D" type="Area2D" parent="."]
+unique_name_in_owner = true
+collision_layer = 2
+collision_mask = 2
+
+[node name="HurtboxShape2D" type="CollisionShape2D" parent="Hurtbox2D"]
+shape = SubResource("CircleShape2D_iqsr3")
+debug_color = Color(0.947248, 5.0056e-06, 0.583987, 0.42)
+
+[node name="HealthBar" type="ProgressBar" parent="Hurtbox2D"]
 unique_name_in_owner = true
 offset_left = -30.0
 offset_top = -45.0
@@ -68,12 +77,3 @@ theme_override_styles/background = SubResource("StyleBoxFlat_rq8no")
 theme_override_styles/fill = SubResource("StyleBoxFlat_sd6np")
 value = 100.0
 show_percentage = false
-
-[node name="Hurtbox2D" type="Area2D" parent="."]
-unique_name_in_owner = true
-collision_layer = 0
-collision_mask = 2
-
-[node name="HurtboxShape2D" type="CollisionShape2D" parent="Hurtbox2D"]
-shape = SubResource("CircleShape2D_iqsr3")
-debug_color = Color(0.947248, 5.0056e-06, 0.583987, 0.42)
