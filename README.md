@@ -12,4 +12,4 @@ Go to releases and extract the zip file and double click on the exe
 ### Linux
 Go to releases and extract the zip file
 run the program using your terminal emulator of choice using this command
-```./[where_you_put_the_zip_file]/StarBlisterLinux/StarBlisterLinux```
+```./[where_you_put_the_extracted_zip_file]/StarBlisterLinux/StarBlisterLinux```
