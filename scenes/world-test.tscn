@@ -812,55 +812,58 @@ sprite_frames = SubResource("SpriteFrames_qprew")
 frame_progress = 0.495556
 script = ExtResource("2_ywbqc")
 
-[node name="StickTutorial2D2" type="Sprite2D" parent="."]
+[node name="Tutorial" type="Node2D" parent="."]
+position = Vector2(0, -112)
+
+[node name="StickTutorialShadows2D" type="Sprite2D" parent="Tutorial"]
 modulate = Color(0, 0, 0, 1)
-position = Vector2(-888, -451)
+position = Vector2(-146.919, 3)
 scale = Vector2(0.501268, 0.501975)
 texture = ExtResource("3_su451")
 
-[node name="Bumper2D 1" type="Sprite2D" parent="StickTutorial2D2"]
+[node name="Bumper2D 1" type="Sprite2D" parent="Tutorial/StickTutorialShadows2D"]
 position = Vector2(229.418, -1.99237)
 scale = Vector2(1.27845, 1.27664)
 texture = ExtResource("5_vn32y")
 
-[node name="Bumper2D 2" type="Sprite2D" parent="StickTutorial2D2/Bumper2D 1"]
+[node name="Bumper2D 2" type="Sprite2D" parent="Tutorial/StickTutorialShadows2D/Bumper2D 1"]
 position = Vector2(107, 1.00003)
 texture = ExtResource("6_wd3jj")
 
-[node name="ButtonTutorial" type="Sprite2D" parent="StickTutorial2D2/Bumper2D 1"]
+[node name="ButtonTutorial" type="Sprite2D" parent="Tutorial/StickTutorialShadows2D/Bumper2D 1"]
 position = Vector2(273.802, 1.00006)
 scale = Vector2(0.707694, 0.707694)
 texture = ExtResource("1_dkiqe")
 
-[node name="StickTutorial2D" type="Sprite2D" parent="."]
-position = Vector2(-888.919, -454)
+[node name="StickTutorial2D" type="Sprite2D" parent="Tutorial"]
+position = Vector2(-148.919, 0)
 scale = Vector2(0.501268, 0.501975)
 texture = ExtResource("3_su451")
 
-[node name="Bumper2D 1" type="Sprite2D" parent="StickTutorial2D"]
+[node name="Bumper2D 1" type="Sprite2D" parent="Tutorial/StickTutorial2D"]
 position = Vector2(229.418, -1.99237)
 scale = Vector2(1.27845, 1.27664)
 texture = ExtResource("5_vn32y")
 
-[node name="Bumper2D 2" type="Sprite2D" parent="StickTutorial2D/Bumper2D 1"]
+[node name="Bumper2D 2" type="Sprite2D" parent="Tutorial/StickTutorial2D/Bumper2D 1"]
 position = Vector2(107, 1.00003)
 texture = ExtResource("6_wd3jj")
 
-[node name="ButtonTutorial" type="Sprite2D" parent="StickTutorial2D/Bumper2D 1"]
+[node name="ButtonTutorial" type="Sprite2D" parent="Tutorial/StickTutorial2D/Bumper2D 1"]
 position = Vector2(273.802, 1.00006)
 scale = Vector2(0.707694, 0.707694)
 texture = ExtResource("1_dkiqe")
 
-[node name="Turn2" type="Label" parent="."]
+[node name="TextShadows" type="Label" parent="Tutorial"]
 modulate = Color(0.154876, 0.154876, 0.154876, 1)
-offset_left = -911.0
-offset_top = -423.0
-offset_right = -871.0
-offset_bottom = -400.0
+offset_left = -167.0
+offset_top = 29.0
+offset_right = -127.0
+offset_bottom = 52.0
 text = "Turn"
 horizontal_alignment = 1
 
-[node name="Break" type="Label" parent="Turn2"]
+[node name="Break" type="Label" parent="Tutorial/TextShadows"]
 layout_mode = 0
 offset_left = 142.0
 offset_right = 195.0
@@ -869,7 +872,7 @@ text = "Breaks
 "
 horizontal_alignment = 1
 
-[node name="Fire" type="Label" parent="Turn2/Break"]
+[node name="Fire" type="Label" parent="Tutorial/TextShadows/Break"]
 layout_mode = 0
 offset_left = 149.0
 offset_right = 189.0
@@ -877,16 +880,16 @@ offset_bottom = 23.0
 text = "Fire"
 horizontal_alignment = 1
 
-[node name="Turn" type="Label" parent="."]
-offset_left = -910.919
-offset_top = -425.0
-offset_right = -870.919
-offset_bottom = -402.0
+[node name="Text" type="Label" parent="Tutorial"]
+offset_left = -169.0
+offset_top = 27.0
+offset_right = -129.0
+offset_bottom = 50.0
 theme = SubResource("Theme_yvuhx")
 text = "Turn"
 horizontal_alignment = 1
 
-[node name="Break" type="Label" parent="Turn"]
+[node name="Break" type="Label" parent="Tutorial/Text"]
 layout_mode = 0
 offset_left = 142.0
 offset_right = 195.0
@@ -895,7 +898,7 @@ text = "Breaks
 "
 horizontal_alignment = 1
 
-[node name="Fire" type="Label" parent="Turn/Break"]
+[node name="Fire" type="Label" parent="Tutorial/Text/Break"]
 layout_mode = 0
 offset_left = 149.0
 offset_right = 189.0

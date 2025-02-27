@@ -1,9 +1,28 @@
-[gd_scene load_steps=13 format=3 uid="uid://th5qgxjg3g7h"]
+[gd_scene load_steps=20 format=3 uid="uid://th5qgxjg3g7h"]
 
 [ext_resource type="Script" path="res://scripts/PlayerController.gd" id="1_wagvw"]
+[ext_resource type="AudioStream" uid="uid://dwbgdwq1brgxd" path="res://sounds/shoot2.wav" id="2_3qa12"]
 [ext_resource type="Shader" uid="uid://chlpmafosajx4" path="res://scenes/shaders/hit_flash.tres" id="2_afs2j"]
 [ext_resource type="Texture2D" uid="uid://b5abbakm4hko3" path="res://assets/uwu-cartoonified.png" id="2_x5j74"]
 [ext_resource type="Texture2D" uid="uid://chqll2t6uau3q" path="res://assets/hand_small_point_n.svg" id="3_hyq6x"]
+[ext_resource type="AudioStream" uid="uid://drpbh5lt2qjlh" path="res://sounds/playerhit.wav" id="3_n7g3f"]
+[ext_resource type="AudioStream" uid="uid://h4t5mtfsghat" path="res://sounds/skid2.wav" id="4_3tcje"]
+[ext_resource type="AudioStream" uid="uid://bwqb5vu5v0jwo" path="res://sounds/lowhealth.wav" id="4_jtbc8"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_c0scg"]
+random_pitch = 1.07
+streams_count = 1
+stream_0/stream = ExtResource("2_3qa12")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_uhb02"]
+random_pitch = 1.1
+streams_count = 1
+stream_0/stream = ExtResource("3_n7g3f")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_bm8fv"]
+random_pitch = 1.1
+streams_count = 1
+stream_0/stream = ExtResource("4_3tcje")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ndwdg"]
 shader = ExtResource("2_afs2j")
@@ -72,6 +91,25 @@ _data = {
 
 [node name="PlayerNode2D" type="CharacterBody2D"]
 script = ExtResource("1_wagvw")
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="ShootSound2D" type="AudioStreamPlayer2D" parent="Sounds"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_c0scg")
+
+[node name="HurtSound2D" type="AudioStreamPlayer2D" parent="Sounds"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_uhb02")
+
+[node name="SkidSound2D" type="AudioStreamPlayer2D" parent="Sounds"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_bm8fv")
+volume_db = -5.0
+
+[node name="LowHealth2D" type="AudioStreamPlayer2D" parent="Sounds"]
+unique_name_in_owner = true
+stream = ExtResource("4_jtbc8")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true

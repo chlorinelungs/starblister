@@ -1,8 +1,9 @@
-[gd_scene load_steps=11 format=3 uid="uid://cncenobva6dhe"]
+[gd_scene load_steps=13 format=3 uid="uid://cncenobva6dhe"]
 
 [ext_resource type="Texture2D" uid="uid://b1tpshqb2p1j2" path="res://assets/imp-cartoonified.png" id="1_o2qqn"]
 [ext_resource type="Script" path="res://scripts/enemy.gd" id="1_vj54m"]
 [ext_resource type="Shader" uid="uid://chlpmafosajx4" path="res://scenes/shaders/hit_flash.tres" id="2_wb3xp"]
+[ext_resource type="AudioStream" uid="uid://cu00jk4fjjt38" path="res://sounds/enemyhit.wav" id="4_aoca3"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_q7ve4"]
 resource_local_to_scene = true
@@ -68,6 +69,11 @@ _data = {
 "hit_flash": SubResource("Animation_dnvsc")
 }
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_e6uw2"]
+random_pitch = 1.1
+streams_count = 1
+stream_0/stream = ExtResource("4_aoca3")
+
 [node name="Enemy2D" type="CharacterBody2D"]
 collision_layer = 3
 collision_mask = 3
@@ -98,3 +104,9 @@ show_percentage = false
 libraries = {
 "": SubResource("AnimationLibrary_r4r6k")
 }
+
+[node name="Sounds" type="Node2D" parent="."]
+
+[node name="HurtSound2D" type="AudioStreamPlayer2D" parent="Sounds"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_e6uw2")

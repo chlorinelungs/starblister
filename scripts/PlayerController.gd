@@ -8,9 +8,15 @@ var max_acceleration := 550.0
 var turn_speed := 8.5
 var slow_turn_speed := turn_speed*2
 
+var can_play := false
+var play_timer_shoot := 0.0
+var play_timer_hit := 0.0
+var play_timer_increase := 0.5
+
 var health := 100.0
 
 @onready var hit_flash_animation_player = $HitFlash2D
+
 
 func _ready(): 
 	pass
@@ -28,14 +34,38 @@ func _physics_process(delta: float) -> void:
 	const DAMAGE := 10.0
 	var overlapping_mobs = %Hurtbox2D.get_overlapping_bodies()
 	if overlapping_mobs.size() > 0:
+		play_timer_hit += play_timer_increase
+		print(play_timer_hit)
+
+		if play_timer_hit >= 2.5:
+			can_play = true
+			play_timer_hit = 0
+		else:
+			can_play = false
+
+		if can_play:
+			%HurtSound2D.play()
+		
 		health -= DAMAGE * overlapping_mobs.size() * delta
 		%HealthBar.value = health
 		hit_flash_animation_player.play("hit_flash")
 		if health <= 0.0:
 			is_dead.emit()
+			get_tree().reload_current_scene()
 
+	if Input.is_action_just_pressed("holding"):
+		%SkidSound2D.play()
 
 	if Input.is_action_pressed("shoot"):
+		play_timer_shoot += play_timer_increase
+		print(play_timer_shoot)
+		if play_timer_shoot >= 2:
+			can_play = true
+			play_timer_shoot = 0
+
+			if can_play:
+				%ShootSound2D.play()
+			
 		velocity += shoot_vector * acceleration
 		if Input.is_action_pressed("holding"):
 			%Camera2D.offset -= shoot_vector * 16
