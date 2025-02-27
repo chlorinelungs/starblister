@@ -2,6 +2,8 @@
 
 A shooter where you use the momentum of your gun recoil to move
 
+![me](https://github.com/chlorinelungs/starblister/blob/main/Godot_shOyD3UZ11.gif)
+
 ## Install
 
 ### Windows
