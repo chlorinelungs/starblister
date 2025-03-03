@@ -8,65 +8,96 @@ var max_acceleration := 550.0
 var turn_speed := 8.5
 var slow_turn_speed := turn_speed*2
 
-var can_play := false
-var play_timer_shoot := 0.0
-var play_timer_hit := 0.0
-var play_timer_increase := 0.5
+var play_increase = 0.5
+var play_timer := 0.0
 
-var health := 100.0
+var health := 15.0
+
+var level := 0
+var level_max := 3
+var level_inc := 0.5
+var level_progress := 0.0
+
+var button_held := 0
+var fire_timer = 0.0
 
 @onready var hit_flash_animation_player = $HitFlash2D
-
 
 func _ready(): 
 	pass
 
 func _physics_process(delta: float) -> void:
-
 	var joystick_rotation = Input.get_action_strength("turn_right") - Input.get_action_strength("turn_left")
-	var shoot_vector = Vector2(-cos(%Pivot2D.rotation), -sin(%Pivot2D.rotation))
-
+	
+	%LevelBar.value = level_progress
+	print(level_progress)
+	
 	# Rotates pivot at set rate
 	%Pivot2D.rotation += joystick_rotation / turn_speed
 	
 	velocity = velocity.limit_length(max_acceleration)
 
+	if Input.is_action_pressed("holding"):
+		if Input.is_action_just_pressed("holding"):
+			%SkidSound2D.play()
+		#var hold_firmness = Input.get_action_strength("holding")
+		turn_speed = slow_turn_speed
+		
+		velocity.x = lerpf(velocity.x,0,0.2)
+		velocity.y = lerpf(velocity.y,0,0.2)
+	else:
+		turn_speed = slow_turn_speed/2
+	
+	if Input.is_action_pressed("shoot"):
+		var fire_max = 4 - level
+		fire_timer += 0.5
+		if fire_timer >= fire_max:
+			fire_gun()
+			fire_timer = 0.0
+			
+	damage_player(delta)
+	camera_controls()
+	
+	move_and_slide()
+
+func shoot():
+	const BULLET = preload("res://scenes/bullet.tscn")
+	var new_bullet = BULLET.instantiate()
+	new_bullet.global_position = %GunSpawn2D.global_position
+	new_bullet.global_rotation = %GunSpawn2D.global_rotation
+	%GunSpawn2D.add_child(new_bullet)
+
+	
+func damage_player(delta: float) -> void:
 	const DAMAGE := 10.0
 	var overlapping_mobs = %Hurtbox2D.get_overlapping_bodies()
 	if overlapping_mobs.size() > 0:
-		play_timer_hit += play_timer_increase
-		print(play_timer_hit)
-
-		if play_timer_hit >= 2.5:
-			can_play = true
-			play_timer_hit = 0
-		else:
-			can_play = false
-
-		if can_play:
-			%HurtSound2D.play()
-		
+		play_timer += play_increase
+		play_sound(%HurtSound2D,2.5)
 		health -= DAMAGE * overlapping_mobs.size() * delta
 		%HealthBar.value = health
 		hit_flash_animation_player.play("hit_flash")
-		if health <= 0.0:
+		
+		kill_player()
+		
+	
+func kill_player():
+	if health <= 0.0:
 			is_dead.emit()
 			get_tree().reload_current_scene()
 
-	if Input.is_action_just_pressed("holding"):
-		%SkidSound2D.play()
+func fire_gun():
+	
+	var shoot_vector = Vector2(-cos(%Pivot2D.rotation), -sin(%Pivot2D.rotation))
+	#play_timer += play_increase
+	#play_sound(%ShootSound2D,2.5)
+	%ShootSound2D.play()
+	shoot()
+	velocity += shoot_vector * acceleration
 
+func camera_controls():
 	if Input.is_action_pressed("shoot"):
-		play_timer_shoot += play_timer_increase
-		print(play_timer_shoot)
-		if play_timer_shoot >= 2:
-			can_play = true
-			play_timer_shoot = 0
-
-			if can_play:
-				%ShootSound2D.play()
-			
-		velocity += shoot_vector * acceleration
+		var shoot_vector = Vector2(-cos(%Pivot2D.rotation), -sin(%Pivot2D.rotation))
 		if Input.is_action_pressed("holding"):
 			%Camera2D.offset -= shoot_vector * 16
 		else:
@@ -88,29 +119,35 @@ func _physics_process(delta: float) -> void:
 			%Camera2D.offset.x = -camera_offset_limit
 		if %Camera2D.offset.y < -camera_offset_limit:
 			%Camera2D.offset.y = -camera_offset_limit
-
-		shoot()
 	else:
 		%Camera2D.offset.x = lerpf(%Camera2D.offset.x,0,0.3)
 		%Camera2D.offset.y = lerpf(%Camera2D.offset.y,0,0.3)
 
-	if Input.is_action_pressed("holding"):
-		#var hold_firmness = Input.get_action_strength("holding")
-		turn_speed = slow_turn_speed
-		slow_down()
-	else:
-		turn_speed = slow_turn_speed/2
-
+func play_sound(_sound_source,_sound_length):
 	
-	move_and_slide()
+	var can_play := false
+	
+	if play_timer >= _sound_length:
+		can_play = true
+		play_timer = 0
+	else:
+		can_play = false
+	if can_play:
+		_sound_source.play()
 
-func slow_down():
-	velocity.x = lerpf(velocity.x,0,0.2)
-	velocity.y = lerpf(velocity.y,0,0.2)
-
-func shoot():
-	const BULLET = preload("res://scenes/bullet.tscn")
-	var new_bullet = BULLET.instantiate()
-	new_bullet.global_position = %GunSpawn2D.global_position
-	new_bullet.global_rotation = %GunSpawn2D.global_rotation
-	%GunSpawn2D.add_child(new_bullet)
+func gain_xp():
+	%GainXp2D.play()
+	level_progress += level_inc
+	if level == 1:
+		level_inc = 0.5
+	elif level == 2:
+		level_inc = 0.3
+	elif level == 3:
+		level_inc = 0.2
+	
+	if level_progress >= 1:
+		level_progress = 0
+		level += 1
+		%LevelUp2D.play()
+	if level >= level_max:
+		level = level_max
