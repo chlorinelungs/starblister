@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://dkbygdx6u7q8c"]
+
+[ext_resource type="Texture2D" uid="uid://by0leyn8nw72f" path="res://assets/shop-cartoonified.png" id="1_d62no"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_v3pvv"]
+radius = 30.0666
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_n5jnf"]
+radius = 81.0987
+
+[node name="Shop" type="StaticBody2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.269, 0.269)
+texture = ExtResource("1_d62no")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_v3pvv")
+
+[node name="ShopArea2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ShopArea2D"]
+position = Vector2(0, 51)
+shape = SubResource("CircleShape2D_n5jnf")

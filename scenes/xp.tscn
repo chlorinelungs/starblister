@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://crn15oobvrvu8"]
+
+[ext_resource type="Texture2D" uid="uid://dahg6kf3xagev" path="res://assets/xp.png" id="1_7e4u7"]
+[ext_resource type="Script" path="res://scripts/xp.gd" id="1_wb6qu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_kdave"]
+radius = 88.0909
+
+[node name="XP2D" type="Area2D"]
+collision_layer = 4
+collision_mask = 4
+script = ExtResource("1_wb6qu")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+texture = ExtResource("1_7e4u7")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_kdave")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

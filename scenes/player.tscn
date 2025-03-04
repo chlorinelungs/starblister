@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://th5qgxjg3g7h"]
+[gd_scene load_steps=27 format=3 uid="uid://th5qgxjg3g7h"]
 
 [ext_resource type="Script" path="res://scripts/PlayerController.gd" id="1_wagvw"]
 [ext_resource type="AudioStream" uid="uid://dwbgdwq1brgxd" path="res://sounds/shoot2.wav" id="2_3qa12"]
@@ -8,6 +8,8 @@
 [ext_resource type="AudioStream" uid="uid://drpbh5lt2qjlh" path="res://sounds/playerhit.wav" id="3_n7g3f"]
 [ext_resource type="AudioStream" uid="uid://h4t5mtfsghat" path="res://sounds/skid2.wav" id="4_3tcje"]
 [ext_resource type="AudioStream" uid="uid://bwqb5vu5v0jwo" path="res://sounds/lowhealth.wav" id="4_jtbc8"]
+[ext_resource type="AudioStream" uid="uid://ldl1xegyle4h" path="res://sounds/levelup.wav" id="6_l4ro6"]
+[ext_resource type="AudioStream" uid="uid://dly6w0r0qhkaw" path="res://sounds/xpgain.wav" id="6_twkph"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_c0scg"]
 random_pitch = 1.07
@@ -24,47 +26,28 @@ random_pitch = 1.1
 streams_count = 1
 stream_0/stream = ExtResource("4_3tcje")
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_8yff2"]
+random_pitch = 1.41
+streams_count = 1
+stream_0/stream = ExtResource("6_twkph")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_8o5x0"]
+streams_count = 1
+stream_0/stream = ExtResource("6_l4ro6")
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ndwdg"]
 shader = ExtResource("2_afs2j")
 shader_parameter/enabled = false
 shader_parameter/tint = Color(1, 1, 1, 1)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_1aqvw"]
-radius = 27.0
+radius = 4.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_iqsr3"]
-radius = 30.0
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rq8no"]
-bg_color = Color(0.2052, 0.57, 0.40584, 1)
-corner_radius_top_left = 4
-corner_radius_top_right = 4
-corner_radius_bottom_right = 4
-corner_radius_bottom_left = 4
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sd6np"]
-bg_color = Color(0.4455, 0.81, 0.405, 1)
-border_color = Color(0.0993816, 0.00316196, 0.244959, 1)
-corner_radius_top_left = 3
-corner_radius_top_right = 3
-corner_radius_bottom_right = 3
-corner_radius_bottom_left = 3
-corner_detail = 4
+radius = 7.07107
 
 [sub_resource type="Animation" id="Animation_kw1iy"]
 length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:material:shader_parameter/enabled")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
 
 [sub_resource type="Animation" id="Animation_4s0iv"]
 resource_name = "hit_flash"
@@ -89,7 +72,42 @@ _data = {
 "hit_flash": SubResource("Animation_4s0iv")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_1jaws"]
+radius = 47.0956
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rq8no"]
+bg_color = Color(0.55, 0.1045, 0.186175, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sd6np"]
+bg_color = Color(0.85, 0.1275, 0.308125, 1)
+border_color = Color(0.0993816, 0.00316196, 0.244959, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_okhr8"]
+bg_color = Color(0.79, 0.658333, 0, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ok370"]
+bg_color = Color(0.878578, 0.89, 0.2047, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
 [node name="PlayerNode2D" type="CharacterBody2D"]
+collision_layer = 5
+collision_mask = 5
 script = ExtResource("1_wagvw")
 
 [node name="Sounds" type="Node2D" parent="."]
@@ -111,8 +129,17 @@ volume_db = -5.0
 unique_name_in_owner = true
 stream = ExtResource("4_jtbc8")
 
+[node name="GainXp2D" type="AudioStreamPlayer2D" parent="Sounds"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_8yff2")
+
+[node name="LevelUp2D" type="AudioStreamPlayer2D" parent="Sounds"]
+unique_name_in_owner = true
+stream = SubResource("AudioStreamRandomizer_8o5x0")
+
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
+visible = false
 limit_smoothed = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -150,18 +177,49 @@ collision_mask = 2
 shape = SubResource("CircleShape2D_iqsr3")
 debug_color = Color(0.947248, 5.0056e-06, 0.583987, 0.42)
 
-[node name="HealthBar" type="ProgressBar" parent="Hurtbox2D"]
-unique_name_in_owner = true
-offset_left = -30.0
-offset_top = -45.0
-offset_right = 30.0
-offset_bottom = -33.0
-theme_override_styles/background = SubResource("StyleBoxFlat_rq8no")
-theme_override_styles/fill = SubResource("StyleBoxFlat_sd6np")
-value = 100.0
-show_percentage = false
-
 [node name="HitFlash2D" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_st0xx")
 }
+
+[node name="BitCollection" type="Area2D" parent="."]
+visible = false
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BitCollection"]
+shape = SubResource("CircleShape2D_1jaws")
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_top = -61.0
+offset_right = 40.0
+offset_bottom = -21.0
+
+[node name="HealthBar" type="ProgressBar" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -65.0
+offset_right = 66.0
+offset_bottom = 12.0
+theme_override_styles/background = SubResource("StyleBoxFlat_rq8no")
+theme_override_styles/fill = SubResource("StyleBoxFlat_sd6np")
+max_value = 15.0
+step = 0.5
+value = 15.0
+show_percentage = false
+
+[node name="LevelBar" type="ProgressBar" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -57.0
+offset_top = 16.0
+offset_right = 59.0
+offset_bottom = 27.0
+theme_override_styles/background = SubResource("StyleBoxFlat_okhr8")
+theme_override_styles/fill = SubResource("StyleBoxFlat_ok370")
+max_value = 1.0
+show_percentage = false
+
+[connection signal="body_entered" from="Hurtbox2D" to="." method="_on_hurtbox_2d_body_entered"]

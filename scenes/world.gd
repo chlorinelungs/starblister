@@ -1,6 +1,5 @@
 extends Node2D
 
-
 func spawn_mob():
 	var new_mob = preload("res://scenes/enemy.tscn").instantiate()
 	%PathFollow2D.progress_ratio = randf()
@@ -11,10 +10,10 @@ func spawn_mob():
 func _ready() -> void:
 	pass
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
 func _on_mob_spawner_timer_2d_timeout():
+	#pass
 	spawn_mob()
